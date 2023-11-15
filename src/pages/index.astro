@@ -1,18 +1,37 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { ModeToggle } from "@/components/ModeToggle.tsx";
-import { ImageSwiper } from "@/components/ImageSwiper.tsx";
 
+import "@/styles/fonts.css";
 import "@/styles/globals.css";
 ---
 
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Meow+Script&family=Waterfall&display=swap"
+  rel="stylesheet"
+/>
 <Layout title="Welcome to Astro.">
-  <main class="h-screen w-screen">
-    <ModeToggle client:load />
-    <div
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-96"
-    >
-      <ImageSwiper client:load />
+  <main class="w-screen h-max flex flex-col xl:flex-row overflow-auto">
+    {/**/}
+    <div class="h-screen w-screen max-w-[min(100vw,1280px)] relative">
+      <img src="/DN_02625.JPG" class="h-full w-full object-cover" />
+      <div class="absolute top-0 left-0 right-0 mt-[5vh] select-none">
+        <div
+          class="leading-[0.8] text-[9rem] mx-4 sm:mx-16 md:mx-24 lg:mx-36 min-w-max text-amber-800"
+          style="font-family: 'Waterfall';"
+        >
+          <p class="">Hiếu</p>
+          <p class="ml-[30%] text-6xl">&</p>
+          <p class="text-right">Thảo Nguyên</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex w-max py-8 px-12">
+      <p class="block text-center text-5xl" style="font-family: 'Waterfall';">
+        Save The Date
+      </p>
     </div>
   </main>
 </Layout>
