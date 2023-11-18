@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  font-size: 10px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 12px;
-  }
-}
-@media (min-width: 1024px) {
-  html {
-    font-size: 16px;
-  }
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -69,5 +55,11 @@ html {
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .font-outline-2 {
+    -webkit-text-stroke: 2px black;
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px black;
   }
 }

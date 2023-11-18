@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { cn } from "@/lib/utils";
 
-import "@/styles/fonts.css";
 import "@/styles/globals.css";
 ---
 
@@ -11,28 +11,63 @@ import "@/styles/globals.css";
   href="https://fonts.googleapis.com/css2?family=Meow+Script&family=Waterfall&display=swap"
   rel="stylesheet"
 />
-<Layout title="Welcome to Astro.">
-  <main class="w-screen h-max flex flex-col xl:flex-row overflow-auto">
+<Layout title="Hiếu & Thảo Nguyên">
+  <main class="w-screen h-auto flex flex-col xl:flex-row overflow-auto">
     {/**/}
-    <div class="h-screen w-screen max-w-[min(100vw,1280px)] relative">
+    <div
+      class="h-[100svh] w-screen max-w-[min(100vw,1280px)] relative @container"
+    >
       <img src="/DN_02625.JPG" class="h-full w-full object-cover" />
-      <div class="absolute top-0 left-0 right-0 mt-8 select-none">
+      <div
+        class="absolute top-0 left-0 right-0 landscape:top-auto landscape:bottom-0 h-1/3 flex items-center justify-center select-none"
+      >
         <div
-          class="leading-[0.8] text-9xl text-amber-800 max-w-[50rem] mx-4 sm:mx-auto"
+          class={cn(
+            "flex flex-col w-[8ch] items-center space-x-2 @md:space-x-4 @xl:space-x-6",
+            "leading-none text-6xl @md:text-7xl @lg:text-8xl @2xl:text-9xl text-amber-800",
+            "landscape:w-full justify-center landscape:flex-row landscape:px-8 landscape:text-white/95 landscape:bg-amber-900/40",
+          )}
           style="font-family: 'Waterfall';"
         >
-          <p class="text-center md:text-left">Hiếu</p>
-          <p class="text-center md:text-left md:ml-[30%] text-6xl">&</p>
-          <p class="text-center md:text-right">Thảo Nguyên</p>
+          <span class="portrait:self-start drop-shadow">Hiếu</span>
+          <span
+            class="portrait:self-start portrait:!ml-[3ch] leading-3 landscape:leading-snug"
+          >
+            <span class="text-4xl @md:text-5xl @lg:text-6xl">&</span>
+          </span>
+          <span class="portrait:self-end">Thảo Nguyên</span>
         </div>
       </div>
     </div>
 
     <div class="flex flex-col w-max py-8 px-12">
-      <h3 class="block text-center text-5xl" style="font-family: 'Waterfall';">
-        Save The Date
-      </h3>
-      <p class="text-lg text-muted-foreground mt-24 ml-4">Coming soon...</p>
+      <section>
+        <h3
+          class="block text-center text-5xl"
+          style="font-family: 'Waterfall';"
+        >
+          Save The Date
+        </h3>
+        <h6 class="text-center text-lg text-muted-foreground mt-24 ml-4">
+          Tiệc cưới nhà gái
+        </h6>
+        <p class="text-center">10:00 chủ nhật 17.12.2023</p>
+        <p class="text-center">(ngày 04 tháng 11 năm Quý Mão)</p>
+      </section>
+
+      <section class="">
+        <h6 class="text-center text-lg text-muted-foreground mt-24 ml-4">
+          Lễ thành hôn tại nhà trai
+        </h6>
+        <p class="text-center">10:00 thứ tư 20.12.2023</p>
+        <p class="text-center">(ngày 08 tháng 11 năm Quý Mão)</p>
+        <p class="text-center">Tư Gia</p>
+        <p class="text-center">
+          Thôn Liên Bách, Xã Nam Lợi, Huyện Nam Trực, Tỉnh Nam Định
+        </p>
+      </section>
+
+      <section></section>
     </div>
   </main>
 </Layout>
