@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import { cn } from "@/lib/utils";
 
 import "@/styles/globals.css";
+import { MapPin, MapPinned } from "lucide-react";
 ---
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,8 +39,8 @@ import "@/styles/globals.css";
       </div>
     </div>
 
-    <div class="flex flex-col gap-20 flex-1 py-8 px-12">
-      <h3 class="block text-center text-5xl" style="font-family: 'Waterfall';">
+    <div class="h-[100svh] flex flex-col gap-20 flex-1 py-8 px-12">
+      <h3 class="block text-center text-6xl" style="font-family: 'Waterfall';">
         Save The Date
       </h3>
 
@@ -50,12 +51,21 @@ import "@/styles/globals.css";
         <p class="text-center text-xl font-semibold">11:00 AM - Chủ Nhật</p>
         <p class="text-center text-6xl leading-normal">17.12.2023</p>
         <p class="text-center italic">(ngày 05 tháng 11 năm Quý Mão)</p>
-        <p class="text-center text-3xl mt-4">
-          Nhà hàng Ngân Trình 2, sảnh tầng 2
-        </p>
-        <p class="text-center italic">
-          Cầu Đòn, TT. Nam Đàn, Huyện Nam Đàn, Tỉnh Nghệ An
-        </p>
+        <a
+          href="https://maps.app.goo.gl/o4aG7je2xuxm2Nep7"
+          target="_blank"
+          class="hover:underline [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
+          style="text-decoration-thickness: 2px"
+        >
+          <p class="text-center text-2xl font-light mt-4">Sảnh tầng 2</p>
+          <p class="text-center text-3xl leading-normal">
+            Nhà hàng Ngân Trình 2
+            <MapPinned size={30} className="mb-2 stroke-[1.5] inline" />
+          </p>
+          <p class="text-center italic leading-loose">
+            Cầu Đòn, TT. Nam Đàn, Huyện Nam Đàn, Tỉnh Nghệ An
+          </p>
+        </a>
       </section>
 
       <section>
@@ -65,10 +75,20 @@ import "@/styles/globals.css";
         <p class="text-center text-xl font-semibold">10:00 AM - thứ Tư</p>
         <p class="text-center text-6xl leading-normal">20.12.2023</p>
         <p class="text-center italic">(ngày 08 tháng 11 năm Quý Mão)</p>
-        <p class="text-center text-3xl mt-4">Tư Gia</p>
-        <p class="text-center italic">
-          Thôn Liên Bách, Xã Nam Lợi, Huyện Nam Trực, Tỉnh Nam Định
-        </p>
+        <a
+          href="https://maps.app.goo.gl/NYSSy6r5xcgXGA8cA"
+          target="_blank"
+          class="hover:underline [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
+          style="text-decoration-thickness: 2px"
+        >
+          <p class="text-center text-3xl mt-4">
+            Tư Gia
+            <MapPinned size={30} className="mb-2 stroke-[1.5] inline" />
+          </p>
+          <p class="text-center italic leading-loose">
+            Thôn Liên Bách, Xã Nam Lợi, Huyện Nam Trực, Tỉnh Nam Định
+          </p>
+        </a>
       </section>
       <section></section>
     </div>
