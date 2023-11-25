@@ -3,6 +3,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Copy } from "lucide-react";
+import { Button } from "./ui/button";
 
 const BANK_ACCOUNT_TN = "19033075156010";
 const BANK_ACCOUNT_MH = "19037964519015";
@@ -20,7 +21,7 @@ export const Gifts = () => {
 
   return (
     <section className="bg-black text-white/90 flex flex-col lg:flex-row justify-evenly gap-12 py-12 px-16">
-      <div className="flex flex-col flex-1 gap-4">
+      <form className="flex flex-col flex-1 gap-4">
         <h3 className="text-center">Mừng Hạnh Phúc</h3>
         <Input
           id="name"
@@ -31,19 +32,20 @@ export const Gifts = () => {
         />
         <Textarea
           id="message"
-          className="border h-48"
+          className="border h-[8.5rem]"
           defaultValue={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Lời chúc..."
+          placeholder="Lời chúc của bạn"
         ></Textarea>
-      </div>
+        <Button type="submit">Gửi</Button>
+      </form>
 
       <div className="flex flex-col md:flex-row justify-evenly gap-12">
         <div className="flex flex-col items-center">
           <h6 className="uppercase">Nguyễn Thị Thảo Nguyên</h6>
           <div className="border-2 border-dashed rounded-lg p-2 my-4">
             <img
-              src={`https://img.vietqr.io/image/TIMO-8007041140809-qr_only.png?${searchParams.toString()}`}
+              src={`https://img.vietqr.io/image/TCB-${BANK_ACCOUNT_TN}-qr_only.png?${searchParams.toString()}`}
               className="w-56 h-56"
             />
           </div>
@@ -63,7 +65,7 @@ export const Gifts = () => {
           <h6 className="uppercase">Phạm Minh Hiếu</h6>
           <div className="border-2 border-dashed rounded-lg p-2 my-4">
             <img
-              src={`https://img.vietqr.io/image/TIMO-8007041026623-qr_only.png?${searchParams.toString()}`}
+              src={`https://img.vietqr.io/image/TCB-${BANK_ACCOUNT_MH}-qr_only.png?${searchParams.toString()}`}
               className="w-56 h-56"
             />
           </div>
