@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useDebounce } from "@uidotdev/usehooks";
-import { Copy } from "lucide-react";
+import { Copy, Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
 
@@ -36,10 +36,12 @@ export const Wishes = () => {
     addInfo: debouncedMessage.slice(0, 50),
   });
 
+  const [sending, setSending] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setSending(true);
     const success = await sendWish({ name, message });
     success
       ? toast({
@@ -49,6 +51,7 @@ export const Wishes = () => {
           title: "Có lỗi xảy ra. Lời chúc chưa thể tới với chúng mình 😢",
           variant: "destructive",
         });
+    setSending(false);
   };
 
   return (
@@ -69,8 +72,11 @@ export const Wishes = () => {
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Lời chúc của bạn"
         ></Textarea>
-        <Button type="submit" disabled={!name || !message}>
+        <Button type="submit" disabled={!name || !message || sending}>
           Gửi
+          {sending ? (
+            <Loader2 size={16} className="animate-spin-infinite ml-1" />
+          ) : null}
         </Button>
       </form>
 
