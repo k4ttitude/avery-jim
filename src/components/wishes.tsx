@@ -11,7 +11,7 @@ const BANK_ACCOUNT_MH = "19037964519015";
 const formatBankAccount = (account: string) =>
   account.match(/(.{1,4})/g)?.join(" ");
 
-export const Gifts = () => {
+export const Wishes = () => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const debouncedMessage = useDebounce(message, 300);
