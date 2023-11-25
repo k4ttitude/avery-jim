@@ -13,9 +13,9 @@ import { MapPin, MapPinned } from "lucide-react";
   rel="stylesheet"
 />
 <Layout title="Hiếu & Thảo Nguyên">
-  <main class="w-screen h-auto flex flex-col 2xl:flex-row overflow-auto">
+  <main class="w-screen h-auto flex flex-col overflow-auto">
     {/**/}
-    <div class="h-[100svh] w-screen 2xl:w-2/3 relative @container">
+    <div class="h-[100svh] w-screen relative @container">
       <img src="/DN_02625.JPG" class="h-full w-full object-cover" />
       <div
         class="absolute top-0 left-0 right-0 landscape:top-auto landscape:bottom-0 h-1/3 flex items-center justify-center select-none"
@@ -39,58 +39,61 @@ import { MapPin, MapPinned } from "lucide-react";
       </div>
     </div>
 
-    <div class="h-[100svh] flex flex-col gap-20 flex-1 py-8 px-12">
+    <section class="flex flex-col gap-20 justify-center flex-1 py-16 px-12">
       <h3 class="block text-center text-6xl" style="font-family: 'Waterfall';">
         Save The Date
       </h3>
 
-      <section>
-        <h6 class="text-center text-xl text-muted-foreground mb-4 uppercase">
-          Tiệc cưới nhà gái
-        </h6>
-        <p class="text-center text-xl font-semibold">11:00 AM - Chủ Nhật</p>
-        <p class="text-center text-6xl leading-normal">17.12.2023</p>
-        <p class="text-center italic">(ngày 05 tháng 11 năm Quý Mão)</p>
-        <a
-          href="https://maps.app.goo.gl/o4aG7je2xuxm2Nep7"
-          target="_blank"
-          class="hover:underline [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
-          style="text-decoration-thickness: 2px"
-        >
-          <p class="text-center text-2xl font-light mt-4">Sảnh tầng 2</p>
-          <p class="text-center text-3xl leading-normal">
-            Nhà hàng Ngân Trình 2
-            <MapPinned size={30} className="mb-2 stroke-[1.5] inline" />
-          </p>
-          <p class="text-center italic leading-loose">
-            Cầu Đòn, TT. Nam Đàn, Huyện Nam Đàn, Tỉnh Nghệ An
-          </p>
-        </a>
-      </section>
+      <div class="flex flex-col gap-20 lg:flex-row justify-evenly">
+        <div>
+          <h6 class="text-center text-xl text-muted-foreground mb-4 uppercase">
+            Tiệc cưới nhà gái
+          </h6>
+          <p class="text-center text-xl font-semibold">11:00 AM - Chủ Nhật</p>
+          <p class="text-center text-6xl leading-normal">17.12.2023</p>
+          <p class="text-center italic">(ngày 05 tháng 11 năm Quý Mão)</p>
+          <a
+            href="https://maps.app.goo.gl/o4aG7je2xuxm2Nep7"
+            target="_blank"
+            class="hover:underline [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
+            style="text-decoration-thickness: 2px"
+          >
+            <p class="text-center text-2xl font-light mt-4">Sảnh tầng 2</p>
+            <p class="text-center text-3xl leading-normal">
+              Nhà hàng Ngân Trình 2
+              <MapPinned size={30} className="mb-2 stroke-[1.5] inline" />
+            </p>
+            <p class="text-center italic leading-loose">
+              Cầu Đòn, TT. Nam Đàn, Huyện Nam Đàn, Tỉnh Nghệ An
+            </p>
+          </a>
+        </div>
 
-      <section>
-        <h6 class="text-center text-lg text-muted-foreground mb-4 uppercase">
-          Lễ thành hôn tại nhà trai
-        </h6>
-        <p class="text-center text-xl font-semibold">10:00 AM - thứ Tư</p>
-        <p class="text-center text-6xl leading-normal">20.12.2023</p>
-        <p class="text-center italic">(ngày 08 tháng 11 năm Quý Mão)</p>
-        <a
-          href="https://maps.app.goo.gl/NYSSy6r5xcgXGA8cA"
-          target="_blank"
-          class="hover:underline [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
-          style="text-decoration-thickness: 2px"
-        >
-          <p class="text-center text-3xl mt-4">
-            Tư Gia
-            <MapPinned size={30} className="mb-2 stroke-[1.5] inline" />
-          </p>
-          <p class="text-center italic leading-loose">
-            Thôn Liên Bách, Xã Nam Lợi, Huyện Nam Trực, Tỉnh Nam Định
-          </p>
-        </a>
-      </section>
+        <div>
+          <h6 class="text-center text-lg text-muted-foreground mb-4 uppercase">
+            Lễ thành hôn tại nhà trai
+          </h6>
+          <p class="text-center text-xl font-semibold">10:00 AM - thứ Tư</p>
+          <p class="text-center text-6xl leading-normal">20.12.2023</p>
+          <p class="text-center italic">(ngày 08 tháng 11 năm Quý Mão)</p>
+          <a
+            href="https://maps.app.goo.gl/NYSSy6r5xcgXGA8cA"
+            target="_blank"
+            class="hover:underline [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
+            style="text-decoration-thickness: 2px"
+          >
+            <p class="text-center text-3xl mt-4">
+              Tư Gia
+              <MapPinned size={30} className="mb-2 stroke-[1.5] inline" />
+            </p>
+            <p class="text-center italic leading-loose">
+              Thôn Liên Bách, Xã Nam Lợi, Huyện Nam Trực, Tỉnh Nam Định
+            </p>
+          </a>
+        </div>
+      </div>
+
       <section></section>
-    </div>
+    </section>
   </main>
 </Layout>
