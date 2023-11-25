@@ -4,12 +4,29 @@ import { Textarea } from "./ui/textarea";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Copy } from "lucide-react";
 import { Button } from "./ui/button";
+import { useToast } from "./ui/use-toast";
 
 const BANK_ACCOUNT_TN = "19033075156010";
 const BANK_ACCOUNT_MH = "19037964519015";
 
 const formatBankAccount = (account: string) =>
   account.match(/(.{1,4})/g)?.join(" ");
+
+const sendWish = async (data: { name: string; message: string }) => {
+  try {
+    const response = await fetch("/actions/send-wish", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const { success } = (await response.json()) as { success: boolean };
+    return success;
+  } catch (err) {
+    return false;
+  }
+};
 
 export const Wishes = () => {
   const [name, setName] = useState("");
@@ -19,15 +36,17 @@ export const Wishes = () => {
     addInfo: debouncedMessage.slice(0, 50),
   });
 
+  const { toast } = useToast();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    await fetch("/actions/send-wish", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, message }),
-    });
+    const success = await sendWish({ name, message });
+    success
+      ? toast({ title: "Lời chúc đã được gửi đi. Cảm ơn bạn rất nhiều!" })
+      : toast({
+          title: "Đã có lỗi xảy ra, vui lòng thử lại.",
+          variant: "destructive",
+        });
   };
 
   return (

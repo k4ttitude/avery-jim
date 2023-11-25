@@ -1,5 +1,6 @@
 ---
 import { DarkToggle } from "@/components/dark-toggle.tsx";
+import { Toaster } from "@/components/ui/toaster.tsx";
 
 interface Props {
   title: string;
@@ -43,6 +44,7 @@ const { title } = Astro.props;
   </head>
   <body class="overflow-x-hidden">
     <DarkToggle client:load />
+    <Toaster client:load />
     <slot />
   </body>
 </html>
