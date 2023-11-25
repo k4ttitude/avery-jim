@@ -1,14 +1,14 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { ModeToggle } from "@/components/ModeToggle.tsx";
-import { ImageSwiper } from "@/components/ImageSwiper.tsx";
+import { DarkToggle } from "@/components/dark-toggle.tsx";
+import { ImageSwiper } from "@/components/image-swiper.tsx";
 
 import "@/styles/globals.css";
 ---
 
 <Layout title="Welcome to Astro.">
   <main class="h-screen w-screen">
-    <ModeToggle client:load />
+    <DarkToggle client:load />
     <div
       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-96"
     >
