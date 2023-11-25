@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1700928317217,
+      "tag": "0000_salty_groot",
+      "breakpoints": true
+    }
+  ]
+}

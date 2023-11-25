@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useDebounce } from "@uidotdev/usehooks";
@@ -19,9 +19,20 @@ export const Gifts = () => {
     addInfo: debouncedMessage.slice(0, 50),
   });
 
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    await fetch("/actions/send-wish", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, message }),
+    });
+  };
+
   return (
     <section className="bg-black text-white/90 flex flex-col lg:flex-row justify-evenly gap-12 py-12 px-16">
-      <form className="flex flex-col flex-1 gap-4">
+      <form className="flex flex-col flex-1 gap-4" onSubmit={handleSubmit}>
         <h3 className="text-center">Mừng Hạnh Phúc</h3>
         <Input
           id="name"
@@ -37,7 +48,9 @@ export const Gifts = () => {
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Lời chúc của bạn"
         ></Textarea>
-        <Button type="submit">Gửi</Button>
+        <Button type="submit" disabled={!name || !message}>
+          Gửi
+        </Button>
       </form>
 
       <div className="flex flex-col md:flex-row justify-evenly gap-12">
