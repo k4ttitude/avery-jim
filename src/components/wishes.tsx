@@ -55,8 +55,11 @@ export const Wishes = () => {
   };
 
   return (
-    <section className="bg-black text-white/90 flex flex-col lg:flex-row justify-evenly gap-12 py-12 px-16">
-      <form className="flex flex-col flex-1 gap-4" onSubmit={handleSubmit}>
+    <section className="bg-black text-white/90 flex flex-col lg:flex-row justify-center items-center lg:items-start gap-12 py-12 px-16">
+      <form
+        className="flex flex-col gap-4 flex-1 max-w-[500px] w-full"
+        onSubmit={handleSubmit}
+      >
         <h3 className="text-center">Mừng Hạnh Phúc</h3>
         <Input
           id="name"
