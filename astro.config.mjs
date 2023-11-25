@@ -8,5 +8,20 @@ import react from "@astrojs/react";
 export default defineConfig({
   integrations: [tailwind(), react()],
   output: "server",
-  adapter: vercel({ imageService: true }),
+  adapter: vercel({
+    imageService: true,
+    imagesConfig: {
+      sizes: [256, 640, 1080, 2048, 3840],
+      domains: [],
+      minimumCacheTTL: 60,
+      formats: ["image/avif", "image/webp"],
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "img.vietqr.io",
+          pathname: "image/**",
+        },
+      ],
+    },
+  }),
 });

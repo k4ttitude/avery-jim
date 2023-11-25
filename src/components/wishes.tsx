@@ -61,14 +61,14 @@ export const Wishes = () => {
         <Input
           id="name"
           className="border"
-          defaultValue={name}
+          value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Người gửi"
         />
         <Textarea
           id="message"
           className="border h-[8.5rem]"
-          defaultValue={message}
+          value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Lời chúc của bạn"
         ></Textarea>
@@ -86,6 +86,7 @@ export const Wishes = () => {
           <div className="border-2 border-dashed rounded-lg p-2 my-4">
             <img
               src={`https://img.vietqr.io/image/TCB-${BANK_ACCOUNT_TN}-qr_only.png?${searchParams.toString()}`}
+              alt="Thao Nguyen's bank account QR"
               className="w-56 h-56"
             />
           </div>
@@ -106,6 +107,7 @@ export const Wishes = () => {
           <div className="border-2 border-dashed rounded-lg p-2 my-4">
             <img
               src={`https://img.vietqr.io/image/TCB-${BANK_ACCOUNT_MH}-qr_only.png?${searchParams.toString()}`}
+              alt="Minh Hieu's bank account QR"
               className="w-56 h-56"
             />
           </div>
