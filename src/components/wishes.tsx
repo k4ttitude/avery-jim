@@ -42,9 +42,11 @@ export const Wishes = () => {
     e.preventDefault();
     const success = await sendWish({ name, message });
     success
-      ? toast({ title: "Lời chúc đã được gửi đi. Cảm ơn bạn rất nhiều!" })
+      ? toast({
+          title: "Chúng mình đã nhận được lời chúc rồi, cảm ơn bạn nhiều ạ 🥰",
+        })
       : toast({
-          title: "Đã có lỗi xảy ra, vui lòng thử lại.",
+          title: "Có lỗi xảy ra. Lời chúc chưa thể tới với chúng mình 😢",
           variant: "destructive",
         });
   };
