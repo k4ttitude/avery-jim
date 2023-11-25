@@ -3,7 +3,8 @@ import Layout from "@/layouts/Layout.astro";
 import { cn } from "@/lib/utils";
 
 import "@/styles/globals.css";
-import { MapPin, MapPinned } from "lucide-react";
+import { MapPinned } from "lucide-react";
+import { Gifts } from "@/components/Gifts.tsx";
 ---
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -92,8 +93,8 @@ import { MapPin, MapPinned } from "lucide-react";
           </a>
         </div>
       </div>
-
-      <section></section>
     </section>
+
+    <Gifts client:load />
   </main>
 </Layout>
