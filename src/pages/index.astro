@@ -5,10 +5,9 @@ import Layout from "@/layouts/Layout.astro";
 import { cn } from "@/lib/utils";
 import { Wishes } from "@/components/wishes.tsx";
 
-// @ts-ignore
-import landingBackground from "@/assets/DN_02625.JPG";
-
 import "@/styles/globals.css";
+
+import landingBackground from "@/assets/DN_02625.webp";
 ---
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,8 +22,8 @@ import "@/styles/globals.css";
     <div class="h-[100svh] w-screen relative @container">
       <Image
         src={landingBackground}
-        class="h-full w-full object-cover"
         alt="Pre-wedding Picture"
+        class="h-full w-full object-cover"
       />
       <div
         class="absolute top-0 left-0 right-0 landscape:top-auto landscape:bottom-0 h-1/3 flex items-center justify-center select-none"

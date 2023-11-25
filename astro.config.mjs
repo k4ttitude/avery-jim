@@ -11,7 +11,7 @@ export default defineConfig({
   adapter: vercel({
     imageService: true,
     imagesConfig: {
-      sizes: [256, 640, 1080, 2048, 3840],
+      sizes: [256, 640, 1080, 2048],
       domains: [],
       minimumCacheTTL: 60,
       formats: ["image/avif", "image/webp"],
