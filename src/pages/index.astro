@@ -40,12 +40,14 @@ import { Gifts } from "@/components/Gifts.tsx";
       </div>
     </div>
 
-    <section class="flex flex-col gap-20 justify-center flex-1 py-16 px-12">
+    <section class="flex flex-col gap-16 justify-center flex-1 py-20 px-2">
       <h3 class="block text-center text-6xl" style="font-family: 'Waterfall';">
         Save The Date
       </h3>
 
-      <div class="flex flex-col gap-20 lg:flex-row justify-evenly">
+      <div
+        class="flex flex-col gap-16 justify-evenly lg:flex-row lg:justify-center lg:gap-36"
+      >
         <div>
           <h6 class="text-center text-xl text-muted-foreground mb-4 uppercase">
             Tiệc cưới nhà gái
@@ -56,11 +58,13 @@ import { Gifts } from "@/components/Gifts.tsx";
           <a
             href="https://maps.app.goo.gl/o4aG7je2xuxm2Nep7"
             target="_blank"
-            class="hover:underline [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
+            class="group [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
             style="text-decoration-thickness: 2px"
           >
             <p class="text-center text-2xl font-light mt-4">Sảnh tầng 2</p>
-            <p class="text-center text-3xl leading-normal">
+            <p
+              class="group-hover:underline text-center text-3xl leading-normal ml-7"
+            >
               Nhà hàng Ngân Trình 2
               <MapPinned size={30} className="mb-2 stroke-[1.5] inline" />
             </p>
@@ -72,7 +76,7 @@ import { Gifts } from "@/components/Gifts.tsx";
 
         <div>
           <h6 class="text-center text-lg text-muted-foreground mb-4 uppercase">
-            Lễ thành hôn tại nhà trai
+            Lễ thành hôn
           </h6>
           <p class="text-center text-xl font-semibold">10:00 AM - thứ Tư</p>
           <p class="text-center text-6xl leading-normal">20.12.2023</p>
@@ -80,11 +84,14 @@ import { Gifts } from "@/components/Gifts.tsx";
           <a
             href="https://maps.app.goo.gl/NYSSy6r5xcgXGA8cA"
             target="_blank"
-            class="hover:underline [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
+            class="group [&>p>svg]:text-muted-foreground [&>p>svg]:hover:text-foreground"
             style="text-decoration-thickness: 2px"
           >
-            <p class="text-center text-3xl mt-4">
-              Tư Gia
+            <p class="text-center text-2xl font-light mt-4">Tổ chức tại</p>
+            <p
+              class="group-hover:underline text-center text-3xl leading-normal ml-7"
+            >
+              Nhà Trai
               <MapPinned size={30} className="mb-2 stroke-[1.5] inline" />
             </p>
             <p class="text-center italic leading-loose">
