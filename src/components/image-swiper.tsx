@@ -29,13 +29,13 @@ const SOLO_IMAGES = [
   { src: "/solo/hieu2.jpeg", person: Persons.ME },
 ];
 const COUPLE_IMAGES = [
-  { src: "/couple/match.png", person: Persons.US },
-  { src: "/couple/DN_02619.jpg", person: Persons.US },
-  { src: "/couple/DN_02677.jpg", person: Persons.US },
-  { src: "/couple/DN_02703.jpg", person: Persons.US },
-  { src: "/couple/DN_03091.jpg", person: Persons.US },
-  { src: "/couple/DN_03105.jpg", person: Persons.US },
-  { src: "/couple/DN_03223.jpg", person: Persons.US },
+  { src: "/couple/match.webp", person: Persons.US },
+  { src: "/couple/DN_02619.webp", person: Persons.US },
+  { src: "/couple/DN_02677.webp", person: Persons.US },
+  { src: "/couple/DN_02703.webp", person: Persons.US },
+  { src: "/couple/DN_03091.webp", person: Persons.US },
+  { src: "/couple/DN_03105.webp", person: Persons.US },
+  { src: "/couple/DN_03223.webp", person: Persons.US },
 ];
 
 export const ImageSwiper = () => {
