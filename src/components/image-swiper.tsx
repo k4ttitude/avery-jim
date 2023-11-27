@@ -19,7 +19,7 @@ import {
 import { AlertDialog, AlertDialogContent } from "./ui/alert-dialog";
 import { Button } from "./ui/button";
 
-const dragLimit = 100;
+const dragLimit = 80;
 const offsetTheshold = dragLimit * 2.5;
 
 const Persons = { ME: "me", HER: "her", US: "us" };
@@ -301,8 +301,8 @@ const Image = forwardRef<ImageRef, ImageProps>(
       [-offsetTheshold, offsetTheshold],
       [-15, 15],
     );
-    const opacityNope = useTransform(x, [-dragLimit * 4, 0], [1, 0]);
-    const opacityLike = useTransform(x, [0, dragLimit * 4], [0, 1]);
+    const opacityNope = useTransform(x, [-dragLimit * 2, 0], [1, 0]);
+    const opacityLike = useTransform(x, [0, dragLimit * 2], [0, 1]);
 
     const anim = useAnimation();
 
@@ -370,7 +370,7 @@ const Image = forwardRef<ImageRef, ImageProps>(
           KHÔNG
         </motion.div>
         <motion.div
-          className="absolute top-12 left-8 -rotate-[15deg] border-[3px] border-green-400 rounded-sm py-1.5 px-2 text-green-400 leading-none text-4xl font-semibold"
+          className="absolute top-12 left-8 -rotate-[15deg] bg-secondary/30 border-[3px] border-green-400 rounded-sm py-1.5 px-2 text-green-400 leading-none text-4xl font-semibold"
           style={{ opacity: opacityLike, fontFamily: "Montserrat" }}
         >
           THÍCH
