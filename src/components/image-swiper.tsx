@@ -30,17 +30,30 @@ export const ImageSwiper = () => {
   };
 
   const xx = useMotionValue(0);
+  // nope
   const nopeBackgroundOpacity = useTransform(
     xx,
-    [-dragLimit * 3, -dragLimit, -1, 0],
+    [-dragLimit * 2, -dragLimit, -1, 0],
     [0, 1, 1, 0],
   );
   const nopeSvgOpacity = useTransform(
     xx,
-    [-dragLimit * 3, -dragLimit, -1, 0],
+    [-dragLimit * 2, -dragLimit, -1, 0],
     [1, 0, 0, 1],
   );
-  const nopeScale = useTransform(xx, [-dragLimit, -1, 0], [1, 0.7, 1]);
+  const nopeScale = useTransform(xx, [-dragLimit, -1, 0], [1, 0.75, 1]);
+  // like
+  const likeBackgroundOpacity = useTransform(
+    xx,
+    [0, 1, dragLimit, dragLimit * 2],
+    [0, 1, 1, 0],
+  );
+  const likeSvgOpacity = useTransform(
+    xx,
+    [0, 1, dragLimit, dragLimit * 2],
+    [1, 0, 0, 1],
+  );
+  const likeScale = useTransform(xx, [0, 1, dragLimit], [1, 0.75, 1]);
 
   return (
     <section className="h-[100svh] w-screen grid place-items-center bg-black">
@@ -155,24 +168,43 @@ export const ImageSwiper = () => {
               </defs>
             </Star>
           </RoundedButton>
-          <RoundedButton className="border-green-600">
-            <Heart
-              size={38}
-              strokeWidth={0}
-              className="fill-[url(#like)] scale-90 group-hover:scale-100"
+          <RoundedButton className="border-none relative">
+            <motion.span
+              className="absolute bg-green-600  h-full w-full rounded-full"
+              style={{ opacity: likeBackgroundOpacity, scale: likeScale }}
+            ></motion.span>
+            <motion.span
+              className="absolute h-full w-full rounded-full grid place-items-center"
+              style={{ opacity: likeBackgroundOpacity }}
             >
-              <linearGradient
-                id="like"
-                x1="0.14644660940672627"
-                x2="0.8535533905932737"
-                y1="0.8535533905932737"
-                y2="0.1464466094067262"
-                spreadMethod="pad"
+              <Heart
+                size={38}
+                strokeWidth={0}
+                className="fill-white mt-0.5 scale-90 group-hover:scale-100"
+              />
+            </motion.span>
+            <motion.span
+              className="absolute h-full w-full rounded-full grid place-items-center border border-green-600"
+              style={{ opacity: likeSvgOpacity }}
+            >
+              <Heart
+                size={38}
+                strokeWidth={0}
+                className="fill-[url(#like)] mt-0.5 scale-90 group-hover:scale-100"
               >
-                <stop offset="0%" stopColor="#2df187"></stop>
-                <stop offset="100%" stopColor="#74fef2"></stop>
-              </linearGradient>
-            </Heart>
+                <linearGradient
+                  id="like"
+                  x1="0.14644660940672627"
+                  x2="0.8535533905932737"
+                  y1="0.8535533905932737"
+                  y2="0.1464466094067262"
+                  spreadMethod="pad"
+                >
+                  <stop offset="0%" stopColor="#2df187"></stop>
+                  <stop offset="100%" stopColor="#74fef2"></stop>
+                </linearGradient>
+              </Heart>
+            </motion.span>
           </RoundedButton>
           <a href="#timeline">
             <RoundedButton className="h-14 w-14 border-fuchsia-600">
