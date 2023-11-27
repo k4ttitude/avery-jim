@@ -63,7 +63,10 @@ export const Wishes = () => {
   };
 
   return (
-    <section className="bg-secondary text-primary-foreground flex flex-col lg:flex-row justify-center items-center lg:items-start gap-12 py-12 px-16">
+    <section
+      id="wishes"
+      className="bg-secondary text-primary-foreground flex flex-col lg:flex-row justify-center items-center lg:items-start gap-12 py-12 px-16"
+    >
       <form
         className="flex flex-col gap-4 flex-1 max-w-[500px] w-full"
         onSubmit={handleSubmit}

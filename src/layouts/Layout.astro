@@ -1,5 +1,6 @@
 ---
 import { Toaster } from "@/components/ui/toaster.tsx";
+import { Navigator, ToTopButton } from "@/components/navigator.tsx";
 
 interface Props {
   title: string;
@@ -19,6 +20,8 @@ const { title } = Astro.props;
   </head>
   <body class="overflow-x-hidden">
     <Toaster client:load />
+    <!-- <Navigator client:load /> -->
+    <ToTopButton client:load />
     <slot />
   </body>
 </html>
