@@ -13,20 +13,33 @@ import {
   useImperativeHandle,
   forwardRef,
   useRef,
+  useEffect,
+  type ComponentProps,
 } from "react";
+import { AlertDialog, AlertDialogContent } from "./ui/alert-dialog";
+import { Button } from "./ui/button";
 
 const dragLimit = 100;
 const offsetTheshold = dragLimit * 2.5;
 
+const Persons = { ME: "me", HER: "her", US: "us" };
+const SOLO_IMAGES = [
+  { src: "/solo/hieu1.jpeg", person: Persons.ME },
+  { src: "/solo/thaonguyen2.jpeg", person: Persons.HER },
+  { src: "/solo/hieu2.jpeg", person: Persons.ME },
+];
+const COUPLE_IMAGES = [
+  { src: "/couple/match.png", person: Persons.US },
+  { src: "/couple/DN_02619.jpg", person: Persons.US },
+  { src: "/couple/DN_02677.jpg", person: Persons.US },
+  { src: "/couple/DN_02703.jpg", person: Persons.US },
+  { src: "/couple/DN_03091.jpg", person: Persons.US },
+  { src: "/couple/DN_03105.jpg", person: Persons.US },
+  { src: "/couple/DN_03223.jpg", person: Persons.US },
+];
+
 export const ImageSwiper = () => {
-  const [images, setImages] = useState([
-    "https://d33wubrfki0l68.cloudfront.net/dd23708ebc4053551bb33e18b7174e73b6e1710b/dea24/static/images/wallpapers/shared-colors@2x.png",
-    "https://d33wubrfki0l68.cloudfront.net/49de349d12db851952c5556f3c637ca772745316/cfc56/static/images/wallpapers/bridge-02@2x.png",
-    "https://d33wubrfki0l68.cloudfront.net/594de66469079c21fc54c14db0591305a1198dd6/3f4b1/static/images/wallpapers/bridge-01@2x.png",
-  ]);
-  const handleNext = () => {
-    setImages((values) => [...values.slice(1), values[0]]);
-  };
+  const [images, setImages] = useState(SOLO_IMAGES);
 
   const xx = useMotionValue(0);
   // nope
@@ -55,23 +68,40 @@ export const ImageSwiper = () => {
   const likeScale = useTransform(xx, [0, 1, dragLimit], [1, 0.75, 1]);
 
   const imageRef = useRef<ImageRef>(null);
-  const handleClickLike = () => {
-    imageRef.current?.like().then(handleNext);
+  const [likes, setLikes] = useState([] as { src: string; person: string }[]);
+  const handleNext = (like: boolean) => {
+    setImages((values) => [...values.slice(1), values[0]]);
+    if (like) setLikes((prev) => [...prev, images[0]]);
   };
-  const handleClickNope = () => {
-    imageRef.current?.nope().then(handleNext);
-  };
+
+  const [showMatch, setShowMatch] = useState(0);
+  useEffect(() => {
+    if (showMatch >= 1) {
+      return;
+    }
+    const likedMe = likes.some((like) => like.person === Persons.ME);
+    const likedHer = likes.some((like) => like.person === Persons.HER);
+    if (likedMe && likedHer) {
+      setImages(COUPLE_IMAGES);
+      setShowMatch(1);
+    }
+  }, [likes]);
 
   return (
     <section className="h-[100svh] w-screen grid place-items-center bg-black">
+      <MatchDialog
+        open={showMatch === 1}
+        onOpenChange={(open) => !open && setShowMatch((prev) => prev + 1)}
+      />
+
       <div className="h-[670px] w-96 relative">
         {images.map((image, index) => (
           <Image
             ref={index === 0 ? imageRef : null}
             xx={xx}
             z={images.length - index}
-            key={image}
-            src={image}
+            key={image.src}
+            src={image.src}
             onNext={handleNext}
           />
         ))}
@@ -117,7 +147,7 @@ export const ImageSwiper = () => {
           </a>
           <RoundedButton
             className="border-none relative"
-            onClick={handleClickNope}
+            onClick={() => imageRef.current?.nope()}
           >
             <motion.span
               className="absolute bg-primary h-full w-full rounded-full"
@@ -179,7 +209,7 @@ export const ImageSwiper = () => {
           </RoundedButton>
           <RoundedButton
             className="border-none relative"
-            onClick={handleClickLike}
+            onClick={() => imageRef.current?.like()}
           >
             <motion.span
               className="absolute bg-green-600  h-full w-full rounded-full"
@@ -240,13 +270,13 @@ type ImageProps = {
   src: string;
   z: number;
   xx: MotionValue;
-  onNext: () => void;
+  onNext: (like: boolean) => void;
 };
 const Image = forwardRef<ImageRef, ImageProps>(
   ({ src, z, xx, onNext }, ref) => {
     const x = useMotionValue(0);
     x.on("change", (value) => {
-      if (z === 3) xx.set(value);
+      if (z === SOLO_IMAGES.length) xx.set(value);
     });
     const rotate = useTransform(
       x,
@@ -267,6 +297,7 @@ const Image = forwardRef<ImageRef, ImageProps>(
             setTimeout(
               () =>
                 anim.start({ x: -1000, y: 0 }).then(() => {
+                  onNext(false);
                   x.set(0);
                   resolve();
                 }),
@@ -279,6 +310,7 @@ const Image = forwardRef<ImageRef, ImageProps>(
             setTimeout(
               () =>
                 anim.start({ x: 1000, y: 0 }).then(() => {
+                  onNext(true);
                   x.set(0);
                   resolve();
                 }),
@@ -308,7 +340,7 @@ const Image = forwardRef<ImageRef, ImageProps>(
           if (Math.abs(info.offset.x) > offsetTheshold) {
             anim
               .start({ x: info.offset.x > 0 ? 1000 : -1000, y: 0 })
-              .then(() => onNext());
+              .then(() => onNext(info.offset.x > 0));
             setTimeout(() => anim.set({ x: 0 }), 500);
           }
         }}
@@ -327,7 +359,7 @@ const Image = forwardRef<ImageRef, ImageProps>(
         </motion.div>
         <img
           src={src}
-          className="h-full w-full object-cover pointer-events-none rounded-lg"
+          className="h-[calc(100%-100px)] w-full object-cover pointer-events-none rounded-lg"
         />
         <div className="absolute top-0 bottom-0 left-0 right-0 border-black border-b-[100px] rounded-lg cursor-pointer">
           <div className="absolute bottom-0 left-0 right-0 z-10 h-40 bg-gradient-to-t from-black to-white/0"></div>
@@ -353,3 +385,25 @@ const RoundedButton = ({
     {children}
   </motion.button>
 );
+
+const MatchDialog = (props: ComponentProps<typeof Dialog>) => {
+  return (
+    <AlertDialog {...props}>
+      <AlertDialogContent className="bg-secondary text-white/90 w-fit">
+        <span className="text-2xl">Yay!</span>
+        <span className="inline-flex gap-1">
+          Ghép đôi thành công!
+          <Star className="text-amber-500 fill-amber-500" />
+          <Heart className="text-primary fill-primary" />
+        </span>
+        <Button
+          type="button"
+          className="bg-gradient-to-r from-primary to-accent"
+          onClick={() => props.onOpenChange(false)}
+        >
+          Xem ảnh
+        </Button>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
