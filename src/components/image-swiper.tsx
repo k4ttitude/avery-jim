@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import {
-  AnimatePresence,
   MotionValue,
   motion,
   useAnimation,
@@ -8,13 +7,13 @@ import {
   useTransform,
 } from "framer-motion";
 import { CalendarHeart, Heart, Star, X } from "lucide-react";
-import { useState, type PropsWithChildren } from "react";
-
-export const images = [
-  "https://d33wubrfki0l68.cloudfront.net/dd23708ebc4053551bb33e18b7174e73b6e1710b/dea24/static/images/wallpapers/shared-colors@2x.png",
-  "https://d33wubrfki0l68.cloudfront.net/49de349d12db851952c5556f3c637ca772745316/cfc56/static/images/wallpapers/bridge-02@2x.png",
-  "https://d33wubrfki0l68.cloudfront.net/594de66469079c21fc54c14db0591305a1198dd6/3f4b1/static/images/wallpapers/bridge-01@2x.png",
-];
+import {
+  useState,
+  type PropsWithChildren,
+  useImperativeHandle,
+  forwardRef,
+  useRef,
+} from "react";
 
 const dragLimit = 100;
 const offsetTheshold = dragLimit * 2.5;
@@ -55,20 +54,27 @@ export const ImageSwiper = () => {
   );
   const likeScale = useTransform(xx, [0, 1, dragLimit], [1, 0.75, 1]);
 
+  const imageRef = useRef<ImageRef>(null);
+  const handleClickLike = () => {
+    imageRef.current?.like().then(handleNext);
+  };
+  const handleClickNope = () => {
+    imageRef.current?.nope().then(handleNext);
+  };
+
   return (
     <section className="h-[100svh] w-screen grid place-items-center bg-black">
       <div className="h-[670px] w-96 relative">
-        <AnimatePresence>
-          {images.map((image, index) => (
-            <Image
-              xx={xx}
-              z={images.length - index}
-              key={image}
-              src={image}
-              onNext={handleNext}
-            />
-          ))}
-        </AnimatePresence>
+        {images.map((image, index) => (
+          <Image
+            ref={index === 0 ? imageRef : null}
+            xx={xx}
+            z={images.length - index}
+            key={image}
+            src={image}
+            onNext={handleNext}
+          />
+        ))}
 
         <div
           className="absolute top-0 bottom-0 left-0 right-0 border-black border-b-[100px] rounded-lg cursor-pointer"
@@ -109,7 +115,10 @@ export const ImageSwiper = () => {
               </svg>
             </RoundedButton>
           </a>
-          <RoundedButton className="border-none relative">
+          <RoundedButton
+            className="border-none relative"
+            onClick={handleClickNope}
+          >
             <motion.span
               className="absolute bg-primary h-full w-full rounded-full"
               style={{ opacity: nopeBackgroundOpacity, scale: nopeScale }}
@@ -168,7 +177,10 @@ export const ImageSwiper = () => {
               </defs>
             </Star>
           </RoundedButton>
-          <RoundedButton className="border-none relative">
+          <RoundedButton
+            className="border-none relative"
+            onClick={handleClickLike}
+          >
             <motion.span
               className="absolute bg-green-600  h-full w-full rounded-full"
               style={{ opacity: likeBackgroundOpacity, scale: likeScale }}
@@ -220,74 +232,110 @@ export const ImageSwiper = () => {
   );
 };
 
-const Image = ({
-  src,
-  z,
-  xx,
-  onNext,
-}: {
+type ImageRef = {
+  nope: () => Promise<void>;
+  like: () => Promise<void>;
+};
+type ImageProps = {
   src: string;
   z: number;
-  xx: MotionValue<number>;
+  xx: MotionValue;
   onNext: () => void;
-}) => {
-  const x = useMotionValue(0);
-  x.on("change", (value) => {
-    if (z === 3) xx.set(value);
-    console.log(xx.get());
-  });
-  const rotate = useTransform(x, [-offsetTheshold, offsetTheshold], [-15, 15]);
-  const opacityNope = useTransform(x, [-dragLimit * 4, 0], [1, 0]);
-  const opacityLike = useTransform(x, [0, dragLimit * 4], [0, 1]);
-
-  const anim = useAnimation();
-
-  return (
-    <motion.div
-      className="absolute h-full w-96 object-none rounded-lg cursor-pointer"
-      style={{ x, rotate, zIndex: z }}
-      animate={anim}
-      transition={{ x: { duration: 0.3 }, opacity: { duration: 0.3 } }}
-      dragSnapToOrigin
-      drag
-      dragConstraints={{
-        left: -dragLimit,
-        right: dragLimit,
-        top: -10,
-        bottom: 10,
-      }}
-      dragElastic={0.5}
-      onDragEnd={(_, info) => {
-        if (Math.abs(info.offset.x) > offsetTheshold) {
-          anim
-            .start({ x: info.offset.x > 0 ? 1000 : -1000, y: 0 })
-            .then(() => onNext());
-          setTimeout(() => anim.set({ x: 0 }), 500);
-        }
-      }}
-    >
-      <motion.div
-        className="absolute top-12 right-8 rotate-[15deg] border-[3px] border-destructive rounded-sm py-1.5 px-2 text-destructive leading-none text-4xl font-semibold"
-        style={{ opacity: opacityNope, fontFamily: "Montserrat" }}
-      >
-        KHÔNG
-      </motion.div>
-      <motion.div
-        className="absolute top-12 left-8 -rotate-[15deg] border-[3px] border-green-400 rounded-sm py-1.5 px-2 text-green-400 leading-none text-4xl font-semibold"
-        style={{ opacity: opacityLike, fontFamily: "Montserrat" }}
-      >
-        THÍCH
-      </motion.div>
-      <img
-        src={src}
-        className="h-full w-full object-cover pointer-events-none rounded-lg"
-      />
-      <div className="absolute top-0 bottom-0 left-0 right-0 border-black border-b-[100px] rounded-lg cursor-pointer">
-        <div className="absolute bottom-0 left-0 right-0 z-10 h-40 bg-gradient-to-t from-black to-white/0"></div>
-      </div>
-    </motion.div>
-  );
 };
+const Image = forwardRef<ImageRef, ImageProps>(
+  ({ src, z, xx, onNext }, ref) => {
+    const x = useMotionValue(0);
+    x.on("change", (value) => {
+      if (z === 3) xx.set(value);
+    });
+    const rotate = useTransform(
+      x,
+      [-offsetTheshold, offsetTheshold],
+      [-15, 15],
+    );
+    const opacityNope = useTransform(x, [-dragLimit * 4, 0], [1, 0]);
+    const opacityLike = useTransform(x, [0, dragLimit * 4], [0, 1]);
+
+    const anim = useAnimation();
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        nope: () =>
+          new Promise((resolve) => {
+            opacityNope.set(1);
+            setTimeout(
+              () =>
+                anim.start({ x: -1000, y: 0 }).then(() => {
+                  x.set(0);
+                  resolve();
+                }),
+              500,
+            );
+          }),
+        like: () =>
+          new Promise((resolve) => {
+            opacityLike.set(1);
+            setTimeout(
+              () =>
+                anim.start({ x: 1000, y: 0 }).then(() => {
+                  x.set(0);
+                  resolve();
+                }),
+              500,
+            );
+          }),
+      }),
+      [],
+    );
+
+    return (
+      <motion.div
+        className="absolute h-full w-96 object-none rounded-lg cursor-pointer"
+        style={{ x, rotate, zIndex: z }}
+        animate={anim}
+        transition={{ x: { duration: 0.3 }, opacity: { duration: 0.3 } }}
+        dragSnapToOrigin
+        drag
+        dragConstraints={{
+          left: -dragLimit,
+          right: dragLimit,
+          top: -10,
+          bottom: 10,
+        }}
+        dragElastic={0.5}
+        onDragEnd={(_, info) => {
+          if (Math.abs(info.offset.x) > offsetTheshold) {
+            anim
+              .start({ x: info.offset.x > 0 ? 1000 : -1000, y: 0 })
+              .then(() => onNext());
+            setTimeout(() => anim.set({ x: 0 }), 500);
+          }
+        }}
+      >
+        <motion.div
+          className="absolute top-12 right-8 rotate-[15deg] border-[3px] border-destructive rounded-sm py-1.5 px-2 text-destructive leading-none text-4xl font-semibold"
+          style={{ opacity: opacityNope, fontFamily: "Montserrat" }}
+        >
+          KHÔNG
+        </motion.div>
+        <motion.div
+          className="absolute top-12 left-8 -rotate-[15deg] border-[3px] border-green-400 rounded-sm py-1.5 px-2 text-green-400 leading-none text-4xl font-semibold"
+          style={{ opacity: opacityLike, fontFamily: "Montserrat" }}
+        >
+          THÍCH
+        </motion.div>
+        <img
+          src={src}
+          className="h-full w-full object-cover pointer-events-none rounded-lg"
+        />
+        <div className="absolute top-0 bottom-0 left-0 right-0 border-black border-b-[100px] rounded-lg cursor-pointer">
+          <div className="absolute bottom-0 left-0 right-0 z-10 h-40 bg-gradient-to-t from-black to-white/0"></div>
+        </div>
+      </motion.div>
+    );
+  },
+);
 
 const RoundedButton = ({
   children,
