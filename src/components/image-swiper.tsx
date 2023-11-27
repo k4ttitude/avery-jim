@@ -1,6 +1,7 @@
 import {
   AnimatePresence,
   motion,
+  useAnimation,
   useMotionValue,
   useTransform,
 } from "framer-motion";
@@ -13,7 +14,7 @@ export const images = [
 ];
 
 const dragLimit = 100;
-const offsetTheshold = dragLimit * 1.0;
+const offsetTheshold = dragLimit * 2.5;
 
 export const ImageSwiper = () => {
   const [images, setImages] = useState([
@@ -21,67 +22,54 @@ export const ImageSwiper = () => {
     "https://d33wubrfki0l68.cloudfront.net/49de349d12db851952c5556f3c637ca772745316/cfc56/static/images/wallpapers/bridge-02@2x.png",
     "https://d33wubrfki0l68.cloudfront.net/594de66469079c21fc54c14db0591305a1198dd6/3f4b1/static/images/wallpapers/bridge-01@2x.png",
   ]);
+  const handleNext = () => {
+    setImages((values) => [...values.slice(1), values[0]]);
+  };
 
   return (
-    <div className="h-full w-full">
-      <AnimatePresence>
-        {images.map((image) => (
-          <Image
-            key={image}
-            src={image}
-            onNext={() =>
-              setImages((values) => [...values.slice(1), values[0]])
-            }
-            onPrev={() =>
-              setImages((values) => [
-                values[values.length - 1],
-                ...values.slice(0, values.length - 1),
-              ])
-            }
-          />
-        ))}
-      </AnimatePresence>
-    </div>
+    <section className="h-[100svh] w-screen grid place-items-center bg-red-200">
+      <div className="h-[670px] w-96 relative">
+        <AnimatePresence>
+          {images.map((image, index) => (
+            <Image
+              z={images.length - index}
+              key={image}
+              src={image}
+              onNext={handleNext}
+            />
+          ))}
+        </AnimatePresence>
+      </div>
+    </section>
   );
-};
-
-const variants = {
-  enter: { x: 0, opacity: 0 },
-  center: { zIndex: 1, x: 0, opacity: 1 },
-  exit: {
-    zIndex: 0,
-    translateX: 0,
-    opacity: 0,
-  },
 };
 
 const Image = ({
   src,
+  z,
   onNext,
-  onPrev,
 }: {
   src: string;
+  z: number;
   onNext: () => void;
-  onPrev: () => void;
 }) => {
   const x = useMotionValue(0);
-  const rotate = useTransform(x, [-dragLimit * 2, dragLimit * 2], [-30, 30]);
-  const translateX = useTransform(x, [-dragLimit, dragLimit], [-30, 30]);
-  const y = useTransform(x, [-dragLimit * 2, 0, dragLimit * 2], [40, 0, 40]);
-  console.log(x.get());
+  const rotate = useTransform(x, [-offsetTheshold, offsetTheshold], [-15, 15]);
+  const opacityNope = useTransform(x, [-dragLimit * 4, 0], [1, 0]);
+  const opacityLike = useTransform(x, [0, dragLimit * 4], [0, 1]);
+
+  const anim = useAnimation();
 
   return (
-    <motion.img
-      src={src}
-      className="absolute h-full w-full object-none rounded-lg cursor-pointer z-[1]"
-      style={{ x, translateX, rotate }}
-      variants={variants}
-      exit={{ opacity: 0 }}
+    <motion.div
+      className="absolute h-full w-96 object-none rounded-lg overflow-hidden cursor-pointer z-[1]"
+      style={{ x, rotate, zIndex: z }}
+      animate={anim}
       transition={{
-        x: { type: "spring", duration: 0.0 },
-        opacity: { duration: 0.2 },
+        x: { duration: 0.3 },
+        opacity: { duration: 0.3 },
       }}
-      dragTransition={{ bounceDamping: 200 }}
+      dragSnapToOrigin
       drag
       dragConstraints={{
         left: -dragLimit,
@@ -89,17 +77,32 @@ const Image = ({
         top: -10,
         bottom: 10,
       }}
-      dragElastic={0.2}
+      dragElastic={0.5}
       onDragEnd={(_, info) => {
-        x.set(0);
-        if (info.offset.x < -offsetTheshold) {
-          console.log("next");
-          onNext();
-        } else if (info.offset.x > offsetTheshold) {
-          console.log("prev");
-          onPrev();
+        if (Math.abs(info.offset.x) > offsetTheshold) {
+          anim
+            .start({ x: info.offset.x > 0 ? 1000 : -1000, y: 0 })
+            .then(() => onNext());
+          setTimeout(() => anim.set({ x: 0 }), 500);
         }
       }}
-    />
+    >
+      <motion.div
+        className="absolute top-12 right-8 rotate-[15deg] border-[3px] border-destructive rounded-sm py-1.5 px-2 text-destructive leading-none text-4xl font-semibold"
+        style={{ opacity: opacityNope, fontFamily: "Montserrat;" }}
+      >
+        NOPE
+      </motion.div>
+      <motion.div
+        className="absolute top-12 left-8 -rotate-[15deg] border-[3px] border-green-400 rounded-sm py-1.5 px-2 text-green-400 leading-none text-4xl font-semibold"
+        style={{ opacity: opacityLike, fontFamily: "Montserrat;" }}
+      >
+        LIKE
+      </motion.div>
+      <img
+        src={src}
+        className="h-full w-full object-cover pointer-events-none"
+      />
+    </motion.div>
   );
 };
