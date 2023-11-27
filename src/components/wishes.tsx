@@ -41,6 +41,14 @@ export const Wishes = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (sending) {
+      return;
+    }
+    if (!name || !message) {
+      return toast({
+        title: "Vui lòng nhập cả tên và nội dung 🔴",
+      });
+    }
     setSending(true);
     const success = await sendWish({ name, message });
     success
@@ -55,7 +63,7 @@ export const Wishes = () => {
   };
 
   return (
-    <section className="bg-black text-white/90 flex flex-col lg:flex-row justify-center items-center lg:items-start gap-12 py-12 px-16">
+    <section className="bg-secondary text-primary-foreground flex flex-col lg:flex-row justify-center items-center lg:items-start gap-12 py-12 px-16">
       <form
         className="flex flex-col gap-4 flex-1 max-w-[500px] w-full"
         onSubmit={handleSubmit}
@@ -63,7 +71,7 @@ export const Wishes = () => {
         <h3 className="text-center">Mừng Hạnh Phúc</h3>
         <Input
           id="name"
-          className="border"
+          className="border text-primary-foreground"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Người gửi"
@@ -73,9 +81,12 @@ export const Wishes = () => {
           className="border h-[8.5rem]"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Lời chúc của bạn"
+          placeholder="Nội dung"
         ></Textarea>
-        <Button type="submit" disabled={!name || !message || sending}>
+        <Button
+          type="submit"
+          className="bg-gradient-to-r from-primary to-accent"
+        >
           Gửi
           {sending ? (
             <Loader2 size={16} className="animate-spin-infinite ml-1" />
