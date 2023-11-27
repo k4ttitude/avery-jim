@@ -1,17 +1,14 @@
 import { cn } from "@/lib/utils";
 import {
   AnimatePresence,
+  MotionValue,
   motion,
   useAnimation,
   useMotionValue,
   useTransform,
 } from "framer-motion";
 import { CalendarHeart, Heart, Star, X } from "lucide-react";
-import {
-  useState,
-  type PropsWithChildren,
-  type ButtonHTMLAttributes,
-} from "react";
+import { useState, type PropsWithChildren } from "react";
 
 export const images = [
   "https://d33wubrfki0l68.cloudfront.net/dd23708ebc4053551bb33e18b7174e73b6e1710b/dea24/static/images/wallpapers/shared-colors@2x.png",
@@ -32,12 +29,26 @@ export const ImageSwiper = () => {
     setImages((values) => [...values.slice(1), values[0]]);
   };
 
+  const xx = useMotionValue(0);
+  const nopeBackgroundOpacity = useTransform(
+    xx,
+    [-dragLimit * 3, -dragLimit, -1, 0],
+    [0, 1, 1, 0],
+  );
+  const nopeSvgOpacity = useTransform(
+    xx,
+    [-dragLimit * 3, -dragLimit, -1, 0],
+    [1, 0, 0, 1],
+  );
+  const nopeScale = useTransform(xx, [-dragLimit, -1, 0], [1, 0.7, 1]);
+
   return (
     <section className="h-[100svh] w-screen grid place-items-center bg-black">
       <div className="h-[670px] w-96 relative">
         <AnimatePresence>
           {images.map((image, index) => (
             <Image
+              xx={xx}
               z={images.length - index}
               key={image}
               src={image}
@@ -45,10 +56,12 @@ export const ImageSwiper = () => {
             />
           ))}
         </AnimatePresence>
+
         <div
           className="absolute top-0 bottom-0 left-0 right-0 border-black border-b-[100px] rounded-lg cursor-pointer"
           style={{ boxShadow: "rgb(33,38,46) 0px 0px 8px 0px" }}
         ></div>
+
         <div className="absolute z-10 bottom-0 h-[100px] right-0 left-0 flex items-center justify-center gap-3">
           <a href="#wishes">
             <RoundedButton className="h-14 w-14 border-amber-600">
@@ -60,8 +73,8 @@ export const ImageSwiper = () => {
                 className="stroke-amber-400 scale-90 group-hover:scale-100"
                 stroke="#f91af2"
                 strokeWidth={1.5}
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <rect
                   x="3"
@@ -83,24 +96,43 @@ export const ImageSwiper = () => {
               </svg>
             </RoundedButton>
           </a>
-          <RoundedButton className="border-destructive">
-            <X
-              size={38}
-              strokeWidth={4}
-              className="stroke-[url(#nope)] scale-90 group-hover:scale-100"
+          <RoundedButton className="border-none relative">
+            <motion.span
+              className="absolute bg-primary h-full w-full rounded-full"
+              style={{ opacity: nopeBackgroundOpacity, scale: nopeScale }}
+            ></motion.span>
+            <motion.span
+              className="absolute h-full w-full rounded-full grid place-items-center"
+              style={{ opacity: nopeBackgroundOpacity }}
             >
-              <linearGradient
-                id="nope"
-                x1="0.14644660940672627"
-                x2="0.8535533905932737"
-                y1="0.8535533905932737"
-                y2="0.1464466094067262"
-                spreadMethod="pad"
+              <X
+                size={38}
+                strokeWidth={4}
+                className="stroke-white scale-90 group-hover:scale-100"
+              />
+            </motion.span>
+            <motion.span
+              className="absolute h-full w-full rounded-full grid place-items-center border border-primary"
+              style={{ opacity: nopeSvgOpacity }}
+            >
+              <X
+                size={38}
+                strokeWidth={4}
+                className="stroke-[url(#nope)] scale-90 group-hover:scale-100"
               >
-                <stop offset="0%" stop-color="#f13b2d"></stop>
-                <stop offset="100%" stop-color="#e010cd"></stop>
-              </linearGradient>
-            </X>
+                <linearGradient
+                  id="nope"
+                  x1="0.14644660940672627"
+                  x2="0.8535533905932737"
+                  y1="0.8535533905932737"
+                  y2="0.1464466094067262"
+                  spreadMethod="pad"
+                >
+                  <stop offset="0%" stopColor="#f13b2d"></stop>
+                  <stop offset="100%" stopColor="#e010cd"></stop>
+                </linearGradient>
+              </X>
+            </motion.span>
           </RoundedButton>
           <RoundedButton className="h-14 w-14 border-blue-400">
             <Star
@@ -117,8 +149,8 @@ export const ImageSwiper = () => {
                   y2="0.1464466094067262"
                   spreadMethod="pad"
                 >
-                  <stop offset="0%" stop-color="#1786ff"></stop>
-                  <stop offset="100%" stop-color="#74fef2"></stop>
+                  <stop offset="0%" stopColor="#1786ff"></stop>
+                  <stop offset="100%" stopColor="#74fef2"></stop>
                 </linearGradient>
               </defs>
             </Star>
@@ -137,8 +169,8 @@ export const ImageSwiper = () => {
                 y2="0.1464466094067262"
                 spreadMethod="pad"
               >
-                <stop offset="0%" stop-color="#2df187"></stop>
-                <stop offset="100%" stop-color="#74fef2"></stop>
+                <stop offset="0%" stopColor="#2df187"></stop>
+                <stop offset="100%" stopColor="#74fef2"></stop>
               </linearGradient>
             </Heart>
           </RoundedButton>
@@ -159,13 +191,19 @@ export const ImageSwiper = () => {
 const Image = ({
   src,
   z,
+  xx,
   onNext,
 }: {
   src: string;
   z: number;
+  xx: MotionValue<number>;
   onNext: () => void;
 }) => {
   const x = useMotionValue(0);
+  x.on("change", (value) => {
+    if (z === 3) xx.set(value);
+    console.log(xx.get());
+  });
   const rotate = useTransform(x, [-offsetTheshold, offsetTheshold], [-15, 15]);
   const opacityNope = useTransform(x, [-dragLimit * 4, 0], [1, 0]);
   const opacityLike = useTransform(x, [0, dragLimit * 4], [0, 1]);
@@ -222,14 +260,16 @@ const Image = ({
 const RoundedButton = ({
   children,
   className,
-}: PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>) => (
-  <button
+  ...props
+}: PropsWithChildren<React.ComponentProps<typeof motion.button>>) => (
+  <motion.button
     type="button"
     className={cn(
       "group rounded-full h-16 w-16 border flex items-center justify-center [&>svg]:transition-transform",
       className,
     )}
+    {...props}
   >
     {children}
-  </button>
+  </motion.button>
 );
