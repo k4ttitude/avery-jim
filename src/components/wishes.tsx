@@ -71,7 +71,7 @@ export const Wishes = () => {
         className="flex flex-col gap-4 flex-1 max-w-[500px] w-full"
         onSubmit={handleSubmit}
       >
-        <h3 className="text-center">Mừng Hạnh Phúc</h3>
+        <h3 className="text-center">Gửi lời chúc phúc ở đây ạ 😉</h3>
         <Input
           id="name"
           className="border text-primary-foreground"
