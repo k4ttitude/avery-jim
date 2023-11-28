@@ -9,7 +9,7 @@ export const Banks = () => {
   const searchParams = new URLSearchParams({ addInfo });
 
   return (
-    <div className="flex flex-col md:flex-row justify-evenly gap-12">
+    <div className="flex flex-col md:flex-row justify-evenly gap-12 flex-1 min-w-fit w-full">
       <div className="flex flex-col items-center">
         <h6 className="uppercase">Nguyễn Thị Thảo Nguyên</h6>
         <div className="border-2 border-dashed rounded-lg p-2 my-4">

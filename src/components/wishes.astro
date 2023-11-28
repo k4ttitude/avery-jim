@@ -1,0 +1,38 @@
+---
+type Wish = { id: string; sender: string; message: string; status?: string };
+
+const getWishes = async () => {
+  try {
+    const wishes = await fetch(
+      `${import.meta.env.SUPABASE_URL}/rest/v1/wishes`,
+      {
+        headers: { apikey: import.meta.env.SUPABASE_ANON || "" },
+      },
+    ).then((res) => res.json());
+    return wishes as Wish[];
+  } catch (err) {
+    return [];
+  }
+};
+
+const wishes = await getWishes();
+---
+
+<div
+  class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-6 max-w-screen-xl w-full"
+>
+  {
+    wishes.map((wish) => (
+      <div class="p-0.5 bg-gradient-to-r from-primary to-accent rounded text-sm bg-black/10">
+        <div class="bg-secondary">
+          <div class="flex flex-col gap-2 bg-white/5 px-3 py-2">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+              {wish.sender}
+            </span>
+            <p>{wish.message}</p>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</div>

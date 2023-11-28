@@ -4,6 +4,7 @@ import { Tinder } from "@/components/tinder.tsx";
 import { SendWish } from "@/components/send-wish.tsx";
 import { Banks } from "@/components/banks.tsx";
 import { MapPin } from "lucide-react";
+import Wishes from "@/components/wishes.astro";
 
 import "@/styles/globals.css";
 ---
@@ -105,10 +106,15 @@ import "@/styles/globals.css";
 
     <section
       id="wishes"
-      class="bg-secondary text-primary-foreground flex flex-col lg:flex-row justify-center items-center lg:items-start gap-12 py-12 px-16"
+      class="bg-secondary text-primary-foreground flex flex-col items-center gap-12 py-12 px-16"
     >
-      <SendWish client:load />
-      <Banks client:load />
+      <div
+        class="flex flex-col lg:flex-row justify-center w-full max-w-screen-xl items-center lg:items-start gap-12"
+      >
+        <SendWish client:load />
+        <Banks client:load />
+      </div>
+      <Wishes />
     </section>
   </main>
 </Layout>

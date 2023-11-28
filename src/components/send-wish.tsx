@@ -1,14 +1,11 @@
 import { message } from "@/shared/message";
-import { useStore } from "@nanostores/react";
-import { useDebounce } from "@uidotdev/usehooks";
-import { Copy, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useToast } from "./ui/use-toast";
-
-type Wish = { id: string; sender: string; message: string; status?: string };
+import { useStore } from "@nanostores/react";
 
 const sendWish = async (data: { name: string; message: string }) => {
   try {
@@ -26,14 +23,8 @@ const sendWish = async (data: { name: string; message: string }) => {
   }
 };
 
-const getWishes = async () =>
-  fetch(`${process.env.SUPABASE_URL}/rest/v1/wishes`, {
-    headers: { apikey: process.env.SUPABASE_ANON || "" },
-  }).then((response) => response.json() as Promise<Wish[]>);
-
 export const SendWish = () => {
   const [name, setName] = useState("");
-  // const [message, setMessage] = useState("");
   const $message = useStore(message);
 
   const [sending, setSending] = useState(false);
@@ -64,10 +55,10 @@ export const SendWish = () => {
 
   return (
     <form
-      className="flex flex-col gap-4 flex-1 max-w-[500px] w-full"
+      className="flex-1 flex flex-col gap-4 min-w-[200px] w-full"
       onSubmit={handleSubmit}
     >
-      <h3 className="text-center">Gửi lời chúc phúc ở đây ạ 😉</h3>
+      <h3 className="text-center">Chúc phúc ở đây ạ 😉</h3>
       <Input
         id="name"
         className="border text-primary-foreground"
@@ -77,8 +68,8 @@ export const SendWish = () => {
       />
       <Textarea
         id="message"
-        className="border h-[8.5rem]"
-        value={message.value}
+        className="border h-48"
+        value={$message}
         onChange={(e) => message.set(e.target.value)}
         placeholder="Nội dung"
       ></Textarea>
