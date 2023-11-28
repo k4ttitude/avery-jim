@@ -44,8 +44,6 @@ const COUPLE_IMAGES = [
 const IMAGES = [...SOLO_IMAGES, ...COUPLE_IMAGES];
 
 export const Tinder = () => {
-  // const [images, setImages] = useState([...images, ...images]);
-
   const xx = useMotionValue(0);
   // nope
   const nopeBackgroundOpacity = useTransform(
@@ -76,7 +74,6 @@ export const Tinder = () => {
   const [current, setCurrent] = useState(0);
   const [likes, setLikes] = useState([] as { src: string; person: string }[]);
   const handleNext = (like: boolean) => {
-    // setImages((values) => [...values.slice(1), values[0]]);
     if (like) setLikes((prev) => [...prev, IMAGES[current]]);
     setCurrent((current + 1) % IMAGES.length);
   };
@@ -90,16 +87,12 @@ export const Tinder = () => {
     const likedHer = likes.some((like) => like.person === Persons.HER);
     if (likedMe && likedHer) {
       setShowMatch(1);
+      setCurrent(SOLO_IMAGES.length);
     }
   }, [likes]);
 
   return (
     <section className="h-[100svh] w-screen grid place-items-center bg-black">
-      <MatchDialog
-        open={showMatch === 1}
-        onOpenChange={(open) => !open && setShowMatch((prev) => prev + 1)}
-      />
-
       <div className="h-full w-full flex flex-col lg:h-[770px] md:w-96 bg-[#111418] relative">
         <div className="h-12 flex items-center pl-3">
           <svg
@@ -113,6 +106,13 @@ export const Tinder = () => {
         </div>
 
         <div className="relative flex-1 w-full">
+          {showMatch === 1 ? (
+            <ItsAMatch
+              open={showMatch === 1}
+              onClose={() => setShowMatch((prev) => prev + 1)}
+            />
+          ) : null}
+
           {IMAGES.slice(current, current + 2).map((image, index) => (
             <Image
               ref={index === 0 ? imageRef : null}
@@ -129,7 +129,7 @@ export const Tinder = () => {
             style={{ boxShadow: "rgb(33,38,46) 0px 0px 8px 0px" }}
           ></div>
 
-          <div className="absolute z-50 bottom-0 h-[100px] right-0 left-0 flex items-center justify-center gap-3">
+          <div className="absolute z-40 bottom-0 h-[100px] right-0 left-0 flex items-center justify-center gap-3">
             <a href="#wishes">
               <RoundedButton className="h-14 w-14 border-amber-600">
                 <svg
@@ -204,7 +204,10 @@ export const Tinder = () => {
                 </X>
               </motion.span>
             </RoundedButton>
-            <RoundedButton className="h-14 w-14 border-blue-400">
+            <RoundedButton
+              className="h-14 w-14 border-blue-400"
+              onClick={() => setShowMatch(1)}
+            >
               <Star
                 size={38}
                 strokeWidth={0}
@@ -412,24 +415,54 @@ const RoundedButton = ({
   </motion.button>
 );
 
-const MatchDialog = (props: ComponentProps<typeof Dialog>) => {
+const ItsAMatch = (props: { onClose: () => void }) => {
   return (
-    <AlertDialog {...props}>
-      <AlertDialogContent className="bg-secondary text-white/90 w-fit">
-        <span className="text-2xl">Yay!</span>
-        <span className="inline-flex gap-1">
-          Ghép đôi thành công!
-          <Star className="text-amber-500 fill-amber-500" />
-          <Heart className="text-primary fill-primary" />
-        </span>
-        <Button
-          type="button"
-          className="bg-gradient-to-r from-primary to-accent"
-          onClick={() => props.onOpenChange(false)}
-        >
-          Xem ảnh
-        </Button>
-      </AlertDialogContent>
-    </AlertDialog>
+    <motion.div
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0, opacity: 0 }}
+      className="absolute z-50 h-full w-full flex"
+    >
+      <img
+        src="/couple/match.webp"
+        className="h-full w-full object-cover rounded-lg"
+      />
+      <div className="absolute bottom-0 h-2/3 w-full flex flex-col justify-evenly px-4 pb-8">
+        <div className="flex flex-col">
+          <span className="text-3xl uppercase italic self-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-green-400">
+            It's a
+          </span>
+          <span
+            className="text-7xl uppercase italic self-center text-[#31ffc7]"
+            style={{
+              textShadow: `1px 1px 4px rgba(0,0,0,.4), 1px 14px 3px rgba(255,255,255,.5)`,
+            }}
+          >
+            Match!
+          </span>
+        </div>
+        <div className="flex flex-col gap-2">
+          <Button
+            type="button"
+            className="bg-gradient-to-r from-primary to-accent uppercase hover:opacity-70 transition-all duration-300"
+            onClick={() => props.onClose()}
+          >
+            Xem ảnh
+          </Button>
+          <a href="#wishes">
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full transition-all duration-300"
+              onClick={() => props.onClose()}
+            >
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent uppercase">
+                Gửi thiệp mừng
+              </span>
+            </Button>
+          </a>
+        </div>
+      </div>
+    </motion.div>
   );
 };
