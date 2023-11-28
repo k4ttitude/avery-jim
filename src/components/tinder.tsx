@@ -41,9 +41,10 @@ const COUPLE_IMAGES = [
   { src: "/couple/DN_03105.webp", person: Persons.US },
   { src: "/couple/DN_03223.webp", person: Persons.US },
 ];
+const IMAGES = [...SOLO_IMAGES, ...COUPLE_IMAGES];
 
 export const Tinder = () => {
-  const [images, setImages] = useState([...SOLO_IMAGES, ...COUPLE_IMAGES]);
+  // const [images, setImages] = useState([...images, ...images]);
 
   const xx = useMotionValue(0);
   // nope
@@ -72,10 +73,12 @@ export const Tinder = () => {
   const likeScale = useTransform(xx, [0, 1, dragLimit], [1, 0.75, 1]);
 
   const imageRef = useRef<ImageRef>(null);
+  const [current, setCurrent] = useState(0);
   const [likes, setLikes] = useState([] as { src: string; person: string }[]);
   const handleNext = (like: boolean) => {
-    setImages((values) => [...values.slice(1), values[0]]);
-    if (like) setLikes((prev) => [...prev, images[0]]);
+    // setImages((values) => [...values.slice(1), values[0]]);
+    if (like) setLikes((prev) => [...prev, IMAGES[current]]);
+    setCurrent((current + 1) % IMAGES.length);
   };
 
   const [showMatch, setShowMatch] = useState(0);
@@ -110,11 +113,11 @@ export const Tinder = () => {
         </div>
 
         <div className="relative flex-1 w-full">
-          {images.map((image, index) => (
+          {IMAGES.slice(current, current + 2).map((image, index) => (
             <Image
               ref={index === 0 ? imageRef : null}
               xx={xx}
-              z={images.length - index}
+              z={IMAGES.length - index}
               key={image.src}
               src={image.src}
               onNext={handleNext}
@@ -297,7 +300,7 @@ const Image = forwardRef<ImageRef, ImageProps>(
   ({ src, z, xx, onNext }, ref) => {
     const x = useMotionValue(0);
     x.on("change", (value) => {
-      if (z === SOLO_IMAGES.length) xx.set(value);
+      if (z === IMAGES.length) xx.set(value);
     });
     const rotate = useTransform(
       x,
