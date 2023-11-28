@@ -24,21 +24,34 @@ const offsetTheshold = dragLimit * 2.5;
 
 const Persons = { ME: "me", HER: "her", US: "us" };
 const SOLO_IMAGES = [
-  { src: "/solo/hieu1.jpeg", person: Persons.ME },
-  { src: "/solo/thaonguyen2.jpeg", person: Persons.HER },
-  { src: "/solo/hieu2.jpeg", person: Persons.ME },
+  { src: "/solo/hieu0.webp", person: Persons.ME },
+  { src: "/solo/thaonguyen1.webp", person: Persons.HER },
+  { src: "/solo/hieu1.webp", person: Persons.ME },
+  { src: "/solo/thaonguyen2.webp", person: Persons.HER },
+  { src: "/solo/hieu2.webp", person: Persons.ME },
+  { src: "/solo/thaonguyen3.webp", person: Persons.HER },
+  { src: "/solo/hieu3.webp", person: Persons.ME },
+  { src: "/solo/thaonguyen4.webp", person: Persons.HER },
+  { src: "/solo/hieu4.jpg", person: Persons.ME },
+  { src: "/solo/thaonguyen5.webp", person: Persons.HER },
+  { src: "/solo/hieu5.jpg", person: Persons.ME },
+  { src: "/solo/thaonguyen6.webp", person: Persons.HER },
+  { src: "/solo/hieu6.webp", person: Persons.ME },
+  { src: "/solo/thaonguyen7.webp", person: Persons.HER },
+  { src: "/solo/hieu7.webp", person: Persons.ME },
+  { src: "/solo/thaonguyen8.webp", person: Persons.HER },
 ];
 const COUPLE_IMAGES = [
-  // { src: "/couple/match.webp", person: Persons.US },
   { src: "/couple/DN_02619.webp", person: Persons.US },
   { src: "/couple/DN_02677.webp", person: Persons.US },
   { src: "/couple/DN_02703.webp", person: Persons.US },
   { src: "/couple/DN_03091.webp", person: Persons.US },
   { src: "/couple/DN_03105.webp", person: Persons.US },
   { src: "/couple/DN_03223.webp", person: Persons.US },
+  { src: "/couple/hautruong.jpg", person: Persons.US },
 ];
 
-export const ImageSwiper = () => {
+export const Tinder = () => {
   const [images, setImages] = useState(SOLO_IMAGES);
 
   const xx = useMotionValue(0);
@@ -123,7 +136,7 @@ export const ImageSwiper = () => {
             style={{ boxShadow: "rgb(33,38,46) 0px 0px 8px 0px" }}
           ></div>
 
-          <div className="absolute z-10 bottom-0 h-[100px] right-0 left-0 flex items-center justify-center gap-3">
+          <div className="absolute z-50 bottom-0 h-[100px] right-0 left-0 flex items-center justify-center gap-3">
             <a href="#wishes">
               <RoundedButton className="h-14 w-14 border-amber-600">
                 <svg

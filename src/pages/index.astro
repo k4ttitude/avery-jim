@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { ImageSwiper } from "@/components/image-swiper.tsx";
+import { Tinder } from "@/components/tinder.tsx";
 import { Wishes } from "@/components/wishes.tsx";
 import { MapPin } from "lucide-react";
 
@@ -18,7 +18,7 @@ import "@/styles/globals.css";
   <main class="w-screen h-auto flex flex-col overflow-auto">
     {/**/}
     <section class="h-[100svh] w-screen relative @container" id="image">
-      <ImageSwiper client:load />
+      <Tinder client:load />
     </section>
 
     <section
