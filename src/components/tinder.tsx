@@ -6,7 +6,7 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { CalendarHeart, Heart, Star, X } from "lucide-react";
+import { CalendarHeart, Heart, Loader2, Star, X } from "lucide-react";
 import {
   useState,
   type PropsWithChildren,
@@ -24,15 +24,12 @@ const offsetTheshold = dragLimit * 2.5;
 
 const Persons = { ME: "me", HER: "her", US: "us" };
 const SOLO_IMAGES = [
-  { src: "/solo/thaonguyen1.webp", person: Persons.HER },
   { src: "/solo/hieu1.webp", person: Persons.ME },
   { src: "/solo/thaonguyen2.webp", person: Persons.HER },
   { src: "/solo/hieu2.webp", person: Persons.ME },
   { src: "/solo/thaonguyen3.webp", person: Persons.HER },
-  { src: "/solo/hieu3.webp", person: Persons.ME },
-  { src: "/solo/thaonguyen4.webp", person: Persons.HER },
   { src: "/solo/hieu5.jpg", person: Persons.ME },
-  { src: "/solo/thaonguyen6.webp", person: Persons.HER },
+  { src: "/solo/thaonguyen4.webp", person: Persons.HER },
   { src: "/solo/hieu6.webp", person: Persons.ME },
   { src: "/solo/thaonguyen8.webp", person: Persons.HER },
 ];
@@ -46,7 +43,7 @@ const COUPLE_IMAGES = [
 ];
 
 export const Tinder = () => {
-  const [images, setImages] = useState(SOLO_IMAGES);
+  const [images, setImages] = useState([...SOLO_IMAGES, ...COUPLE_IMAGES]);
 
   const xx = useMotionValue(0);
   // nope
@@ -89,7 +86,6 @@ export const Tinder = () => {
     const likedMe = likes.some((like) => like.person === Persons.ME);
     const likedHer = likes.some((like) => like.person === Persons.HER);
     if (likedMe && likedHer) {
-      setImages(COUPLE_IMAGES);
       setShowMatch(1);
     }
   }, [likes]);
@@ -386,7 +382,7 @@ const Image = forwardRef<ImageRef, ImageProps>(
           src={src}
           className="h-[calc(100%-100px)] w-full object-cover pointer-events-none rounded-lg"
           loading="lazy"
-          decoding="async"
+          // decoding="async"
         />
         <div className="absolute top-0 bottom-0 left-0 right-0 border-black border-b-[100px] rounded-lg cursor-pointer">
           <div className="absolute bottom-0 left-0 right-0 z-10 h-40 bg-gradient-to-t from-black to-white/0"></div>
