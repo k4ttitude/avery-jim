@@ -29,7 +29,7 @@ const SOLO_IMAGES = [
   { src: "/solo/hieu2.jpeg", person: Persons.ME },
 ];
 const COUPLE_IMAGES = [
-  { src: "/couple/match.webp", person: Persons.US },
+  // { src: "/couple/match.webp", person: Persons.US },
   { src: "/couple/DN_02619.webp", person: Persons.US },
   { src: "/couple/DN_02677.webp", person: Persons.US },
   { src: "/couple/DN_02703.webp", person: Persons.US },
@@ -346,7 +346,7 @@ const Image = forwardRef<ImageRef, ImageProps>(
         animate={anim}
         transition={{ x: { duration: 0.3 }, opacity: { duration: 0.3 } }}
         dragSnapToOrigin
-        drag="x"
+        drag
         dragConstraints={{
           left: -dragLimit,
           right: dragLimit,
