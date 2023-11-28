@@ -24,7 +24,6 @@ const offsetTheshold = dragLimit * 2.5;
 
 const Persons = { ME: "me", HER: "her", US: "us" };
 const SOLO_IMAGES = [
-  { src: "/solo/hieu0.webp", person: Persons.ME },
   { src: "/solo/thaonguyen1.webp", person: Persons.HER },
   { src: "/solo/hieu1.webp", person: Persons.ME },
   { src: "/solo/thaonguyen2.webp", person: Persons.HER },
@@ -32,13 +31,9 @@ const SOLO_IMAGES = [
   { src: "/solo/thaonguyen3.webp", person: Persons.HER },
   { src: "/solo/hieu3.webp", person: Persons.ME },
   { src: "/solo/thaonguyen4.webp", person: Persons.HER },
-  { src: "/solo/hieu4.jpg", person: Persons.ME },
-  { src: "/solo/thaonguyen5.webp", person: Persons.HER },
   { src: "/solo/hieu5.jpg", person: Persons.ME },
   { src: "/solo/thaonguyen6.webp", person: Persons.HER },
   { src: "/solo/hieu6.webp", person: Persons.ME },
-  { src: "/solo/thaonguyen7.webp", person: Persons.HER },
-  { src: "/solo/hieu7.webp", person: Persons.ME },
   { src: "/solo/thaonguyen8.webp", person: Persons.HER },
 ];
 const COUPLE_IMAGES = [
@@ -48,7 +43,6 @@ const COUPLE_IMAGES = [
   { src: "/couple/DN_03091.webp", person: Persons.US },
   { src: "/couple/DN_03105.webp", person: Persons.US },
   { src: "/couple/DN_03223.webp", person: Persons.US },
-  { src: "/couple/hautruong.jpg", person: Persons.US },
 ];
 
 export const Tinder = () => {
@@ -391,6 +385,8 @@ const Image = forwardRef<ImageRef, ImageProps>(
         <img
           src={src}
           className="h-[calc(100%-100px)] w-full object-cover pointer-events-none rounded-lg"
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute top-0 bottom-0 left-0 right-0 border-black border-b-[100px] rounded-lg cursor-pointer">
           <div className="absolute bottom-0 left-0 right-0 z-10 h-40 bg-gradient-to-t from-black to-white/0"></div>
