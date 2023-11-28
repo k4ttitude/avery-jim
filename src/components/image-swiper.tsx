@@ -346,7 +346,7 @@ const Image = forwardRef<ImageRef, ImageProps>(
         animate={anim}
         transition={{ x: { duration: 0.3 }, opacity: { duration: 0.3 } }}
         dragSnapToOrigin
-        drag
+        drag="x"
         dragConstraints={{
           left: -dragLimit,
           right: dragLimit,
