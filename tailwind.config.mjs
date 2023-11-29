@@ -70,6 +70,9 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "spin-infinite": "spin 1s linear infinite",
       },
+      screens: {
+        tall: { raw: "(min-height: 770px)" },
+      },
     },
   },
   plugins: [

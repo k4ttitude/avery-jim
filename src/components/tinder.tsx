@@ -91,7 +91,7 @@ export const Tinder = () => {
 
   return (
     <section className="h-[100svh] w-screen grid place-items-center bg-black">
-      <div className="h-full w-full flex flex-col lg:h-[770px] md:w-96 bg-[#111418] relative">
+      <div className="h-full w-full flex flex-col tall:h-[770px] md:w-96 bg-[#111418] relative">
         <div className="h-12 flex items-center pl-3">
           <svg
             className="h-6 top-0 left-0 z-20 fill-primary"
