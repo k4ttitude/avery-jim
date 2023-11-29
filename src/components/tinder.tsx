@@ -6,7 +6,7 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { CalendarHeart, Heart, Loader2, Star, X } from "lucide-react";
+import { CalendarHeart, Heart, Star, X } from "lucide-react";
 import {
   useState,
   type PropsWithChildren,
@@ -14,9 +14,7 @@ import {
   forwardRef,
   useRef,
   useEffect,
-  type ComponentProps,
 } from "react";
-import { AlertDialog, AlertDialogContent } from "./ui/alert-dialog";
 import { Button } from "./ui/button";
 
 const dragLimit = 80;
@@ -106,12 +104,14 @@ export const Tinder = () => {
         </div>
 
         <div className="relative flex-1 w-full">
-          {showMatch === 1 ? (
-            <ItsAMatch
-              open={showMatch === 1}
-              onClose={() => setShowMatch((prev) => prev + 1)}
-            />
-          ) : null}
+          <ItsAMatch
+            open={showMatch === 1}
+            onClose={() => setShowMatch((prev) => prev + 1)}
+            onViewImages={() => {
+              setShowMatch((prev) => prev + 1);
+              setCurrent(SOLO_IMAGES.length);
+            }}
+          />
 
           {IMAGES.slice(current, current + 2).map((image, index) => (
             <Image
@@ -415,18 +415,26 @@ const RoundedButton = ({
   </motion.button>
 );
 
-const ItsAMatch = (props: { onClose: () => void }) => {
+const ItsAMatch = (props: {
+  open: boolean;
+  onViewImages: () => void;
+  onClose: () => void;
+}) => {
   return (
     <motion.div
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0, opacity: 0 }}
-      className="absolute z-50 h-full w-full flex"
+      className={cn(
+        "absolute z-50 h-full w-full",
+        props.open ? "flex" : "hidden",
+      )}
     >
       <img
         src="/couple/match.webp"
         className="h-full w-full object-cover rounded-lg"
       />
+      <div className="absolute bottom-0 left-0 right-0 z-10 h-20 bg-gradient-to-t from-black to-white/0"></div>
       <div className="absolute bottom-0 h-2/3 w-full flex flex-col justify-evenly px-4 pb-8">
         <div className="flex flex-col">
           <span className="text-3xl uppercase italic self-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-green-400">
@@ -445,7 +453,7 @@ const ItsAMatch = (props: { onClose: () => void }) => {
           <Button
             type="button"
             className="bg-gradient-to-r from-primary to-accent uppercase hover:opacity-70 transition-all duration-300"
-            onClick={() => props.onClose()}
+            onClick={() => props.onViewImages()}
           >
             Xem ảnh
           </Button>

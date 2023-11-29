@@ -42,14 +42,18 @@ export const SendWish = () => {
     }
     setSending(true);
     const success = await sendWish({ name, message: message.value });
-    success
-      ? toast({
-          title: "Chúng mình đã nhận được lời chúc rồi, cảm ơn bạn nhiều ạ 🥰",
-        })
-      : toast({
-          title: "Có lỗi xảy ra. Lời chúc chưa thể tới với chúng mình 😢",
-          variant: "destructive",
-        });
+    if (success) {
+      toast({
+        title: "Chúng mình đã nhận được lời chúc rồi, cảm ơn bạn nhiều ạ 🥰",
+      });
+      setName("");
+      message.set("");
+    } else {
+      toast({
+        title: "Có lỗi xảy ra. Lời chúc chưa thể tới với chúng mình 😢",
+        variant: "destructive",
+      });
+    }
     setSending(false);
   };
 

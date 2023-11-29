@@ -2,11 +2,18 @@ import { Copy } from "lucide-react";
 import { message } from "@/shared/message";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useStore } from "@nanostores/react";
+import { useToast } from "./ui/use-toast";
 
 export const Banks = () => {
   const $message = useStore(message);
   const addInfo = useDebounce($message, 300);
   const searchParams = new URLSearchParams({ addInfo });
+  const { toast } = useToast();
+
+  const handleCopy = (value: string) => {
+    navigator.clipboard.writeText(value);
+    toast({ title: "Đã sao chép" });
+  };
 
   return (
     <div className="flex flex-col md:flex-row justify-evenly gap-12 flex-1 min-w-fit w-full">
@@ -23,9 +30,9 @@ export const Banks = () => {
         <button
           type="button"
           className="inline-flex items-center gap-2 ml-8 p-1 [&>svg]:hover:text-white"
-          onClick={() => navigator.clipboard.writeText(BANK_ACCOUNT_TN)}
+          onClick={() => handleCopy(BANK_ACCOUNT_TN)}
         >
-          <span className="font-semibold text-lg">
+          <span className="font-semibold text-xl">
             {formatBankAccount(BANK_ACCOUNT_TN)}
           </span>
           <Copy className="text-muted-foreground" />
@@ -45,7 +52,7 @@ export const Banks = () => {
         <button
           type="button"
           className="inline-flex items-center gap-2 ml-8 p-1 [&>svg]:hover:text-white"
-          onClick={() => navigator.clipboard.writeText(BANK_ACCOUNT_MH)}
+          onClick={() => handleCopy(BANK_ACCOUNT_MH)}
         >
           <span className="font-semibold text-xl">
             {formatBankAccount(BANK_ACCOUNT_MH)}
