@@ -1,5 +1,5 @@
 import { Copy } from "lucide-react";
-import { message } from "@/shared/message";
+import { message } from "@/shared/wish";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useStore } from "@nanostores/react";
 import { useToast } from "./ui/use-toast";

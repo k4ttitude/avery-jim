@@ -1,15 +1,15 @@
-import { message } from "@/shared/message";
+import { message, sent } from "@/shared/wish";
+import { useStore } from "@nanostores/react";
 import { Loader2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useToast } from "./ui/use-toast";
-import { useStore } from "@nanostores/react";
 
 const sendWish = async (data: { name: string; message: string }) => {
   try {
-    const response = await fetch("/actions/send-wish", {
+    const response = await fetch("/api/wishes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,6 +48,7 @@ export const SendWish = () => {
       });
       setName("");
       message.set("");
+      sent.set(sent.get() + 1);
     } else {
       toast({
         title: "Có lỗi xảy ra. Lời chúc chưa thể tới với chúng mình 😢",
