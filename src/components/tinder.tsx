@@ -420,11 +420,19 @@ const ItsAMatch = (props: {
   onViewImages: () => void;
   onClose: () => void;
 }) => {
+  const anim = useAnimation();
+  useEffect(() => {
+    if (props.open) {
+      anim.start({ scale: 1, opacity: 1 });
+    } else {
+      anim.set({ scale: 0, opacity: 0 });
+    }
+  }, [props.open]);
+
   return (
     <motion.div
       initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0, opacity: 0 }}
+      animate={anim}
       className={cn(
         "absolute z-50 h-full w-full",
         props.open ? "flex" : "hidden",
